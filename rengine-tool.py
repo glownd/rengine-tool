@@ -15,6 +15,8 @@ main_parser = argparse.ArgumentParser()
 option_subparsers = main_parser.add_subparsers(title="options",
                     dest="options")
 
+main_parser.add_argument("-oj", action="store_true",help="JSON output")
+
 #Top Level Commands
 auth_parser = option_subparsers.add_parser("authorize", help="",parents=[parent_parser])
 target_parser = option_subparsers.add_parser("target", help="",parents=[parent_parser])

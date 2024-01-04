@@ -1,6 +1,8 @@
 import argparse
 import requests
 from urllib3.exceptions import InsecureRequestWarning
+import json
+from tabulate import tabulate
 
 class RETarget():
     def __init__(self, args:argparse.Namespace, s:requests.Session):
@@ -11,6 +13,8 @@ class RETarget():
             match args.target_action_command.lower():
                 case 'add':
                     self.addTarget(args, s)
+                case 'list':
+                    self.listTargets(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -31,3 +35,31 @@ class RETarget():
             print("Successfully added: " + args.t)
         else:
             print("Error adding: " + args.t)
+
+    @staticmethod
+    def listTargets(args, s):
+        baseUrl = s.cookies['hostname']
+        listTargetsUrl = baseUrl + 'api/listTargets/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listTargetsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.get(listTargetsUrl, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['results']:
+                id = i['id']
+                name = i['name']
+                org = i['organization']
+                mrs = i['most_recent_scan']
+                slug = str(i['project']['id']) + ' | ' + i['project']['slug']
+                ssd = i['start_scan_date']
+
+                data.append([id, name, slug, org, ssd, mrs])
+
+            print (tabulate(data, headers=["ID", "Name", "Slug", "Org", "Scan Started", "Recent Scan"]))
