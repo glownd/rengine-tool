@@ -58,6 +58,7 @@ scan_list_parser = scan_action_subparser.add_parser("list", help="List scans", p
 scan_start_parser = scan_action_subparser.add_parser("start", help="Start scan", parents=[parent_parser])
 scan_stop_parser = scan_action_subparser.add_parser("stop", help="Stop scan", parents=[parent_parser])
 scan_status_parser = scan_action_subparser.add_parser("status", help="Get the status of scans", parents=[parent_parser])
+scan_listips_parser = scan_action_subparser.add_parser("list-ips", help="Get IP Addresses from scan", parents=[parent_parser])
 
 #Engine Actions
 engine_action_subparser = engine_parser.add_subparsers(title="engine_action",dest="engine_action_command")
@@ -89,20 +90,21 @@ target_listtech_parser.add_argument("-ti", metavar="--target-id", action="store"
 target_listports_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListEndPoints Parser
 target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-target_listeps_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target", required=True)
+target_listeps_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug", required=True)
 
 #Scan
 #scan_add_parser
 #scan_remove_parser 
-scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target")
+scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug")
 #scan_start_parser
 #scan_stop_parser
-# scan_status/#
-scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target", required=True)
+# scan_status
+scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug", required=True)
 # listVulnerability
 # QueryInterestingSubdomains
 # listInterestingEndpoints
 # listIPs
+scan_listips_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # listScanLogs
 # ListTechnology
 # ListPorts
