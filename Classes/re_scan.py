@@ -64,8 +64,8 @@ class REScan():
             for scan in j:
                 id = scan['id']
                 progress = scan['current_progress']
-                start_date = datetime.datetime.strptime(scan['start_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
-                stop_date = datetime.datetime.strptime(scan['stop_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                start_date = '' if scan['start_scan_date'] is None else datetime.datetime.strptime(scan['start_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                stop_date = '' if scan['stop_scan_date'] is None else datetime.datetime.strptime(scan['stop_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
                 domain = scan['domain']['name']
                 scan_type = scan['scan_type']['engine_name']
 
@@ -100,8 +100,8 @@ class REScan():
                 status = t.upper()
                 id = scan['id']
                 progress = scan['current_progress']
-                start_date = datetime.datetime.strptime(scan['start_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
-                stop_date = datetime.datetime.strptime(scan['stop_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                start_date = '' if scan['start_scan_date'] is None else datetime.datetime.strptime(scan['start_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                stop_date = '' if scan['stop_scan_date'] is None else datetime.datetime.strptime(scan['stop_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
                 domain = scan['domain']['name']
                 scan_type = scan['scan_type']['engine_name']
                 data.append([status, id, domain, start_date, stop_date, progress, scan_type])
