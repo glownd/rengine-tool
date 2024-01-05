@@ -12,6 +12,8 @@ class REScan():
             match args.scan_action_command.lower():
                 case 'list':
                     self.listScans(args, s)
+                case 'status':
+                    self.listScanStatus(args, s)
                 # case 'list-vulns':
                 #     self.listVulns(args, s)
                 # case 'list-ips':
@@ -71,3 +73,38 @@ class REScan():
 
             print (tabulate(data, headers=["ID", "Domain", "Start", "Stop", "Progress", "Type"]))
     
+    @staticmethod
+    def listScanStatus(args, s):
+        baseUrl = s.cookies['hostname']
+        listScanStatusUrl = baseUrl + 'api/scan_status/'
+
+        csrf_token = s.cookies['csrftoken']
+        params = {'project': args.pn}
+        headers = {'Referer': listScanStatusUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.get(listScanStatusUrl, params=params, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = REScan.formatScanStatus(j)
+            print (tabulate(data, headers=["Status", "ID", "Domain", "Start", "Stop", "Progress", "Type"]))
+    
+    def formatScanStatus(j):
+        data = []
+        types = ['pending','scanning','completed']
+        for t in types:
+            for scan in j['scans'][t]:
+                status = t.upper()
+                id = scan['id']
+                progress = scan['current_progress']
+                start_date = datetime.datetime.strptime(scan['start_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                stop_date = datetime.datetime.strptime(scan['stop_scan_date'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                domain = scan['domain']['name']
+                scan_type = scan['scan_type']['engine_name']
+                data.append([status, id, domain, start_date, stop_date, progress, scan_type])
+        return data
+
+        

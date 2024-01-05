@@ -57,6 +57,7 @@ scan_remove_parser = scan_action_subparser.add_parser("remove", help="Remove sca
 scan_list_parser = scan_action_subparser.add_parser("list", help="List scans", parents=[parent_parser])
 scan_start_parser = scan_action_subparser.add_parser("start", help="Start scan", parents=[parent_parser])
 scan_stop_parser = scan_action_subparser.add_parser("stop", help="Stop scan", parents=[parent_parser])
+scan_status_parser = scan_action_subparser.add_parser("status", help="Get the status of scans", parents=[parent_parser])
 
 #Engine Actions
 engine_action_subparser = engine_parser.add_subparsers(title="engine_action",dest="engine_action_command")
@@ -97,6 +98,7 @@ scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",he
 #scan_start_parser
 #scan_stop_parser
 # scan_status/#
+scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target", required=True)
 # listVulnerability
 # QueryInterestingSubdomains
 # listInterestingEndpoints
