@@ -19,6 +19,8 @@ class RETarget():
                     self.listIPs(args, s)
                 case 'list-tech':
                     self.listTech(args, s)
+                case 'list-eps':
+                    self.listEndpoints(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -137,12 +139,12 @@ class RETarget():
     @staticmethod
     def listTech(args, s):
         baseUrl = s.cookies['hostname']
-        listIPsUrl = baseUrl + 'api/queryTechnologies/'
+        listTechUrl = baseUrl + 'api/queryTechnologies/'
 
         csrf_token = s.cookies['csrftoken']
-        headers = {'Referer': listIPsUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
+        headers = {'Referer': listTechUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
         attr = {'target_id': args.ti}
-        r = s.get(listIPsUrl, params=attr, headers=headers, verify=False)
+        r = s.get(listTechUrl, params=attr, headers=headers, verify=False)
         j = r.json()
 
         #If JSON output
@@ -157,3 +159,30 @@ class RETarget():
                 data.append([name])
 
             print (tabulate(data, headers=["Name"]))
+    
+    @staticmethod
+    def listEndpoints(args, s):
+        baseUrl = s.cookies['hostname']
+        listEndpointsUrl = baseUrl + 'api/listEndpoints/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listEndpointsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        attr = {'target_id': args.ti, 'project': args.pn}
+        r = s.get(listEndpointsUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['results']:
+                url = i['http_url']
+                title = i['page_title']
+                status = i['http_status']
+                webserver = i['webserver']
+
+                data.append([url, title, status, webserver])
+
+            print (tabulate(data, headers=["URL", "Title", "Status", "Webserver"]))

@@ -86,6 +86,7 @@ target_listtech_parser.add_argument("-ti", metavar="--target-id", action="store"
 target_listports_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListEndPoints Parser
 target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
+target_listeps_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target", required=True)
 
 args = main_parser.parse_args()
 s: requests.Session
