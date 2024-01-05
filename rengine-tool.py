@@ -77,6 +77,7 @@ target_add_parser.add_argument("-h1", metavar="--team", action="store",help="H1 
 ##Setup Target List Parser -- Nothing to do here
 ##Setup Target Remove Parser
 ##Setup Target ListVulns Parser
+target_listvulns_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListIPs Parser
 ##Setup Target ListTech Parser
 ##Setup Target ListPorts Parser
