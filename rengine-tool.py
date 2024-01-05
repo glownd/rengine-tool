@@ -79,9 +79,13 @@ target_add_parser.add_argument("-h1", metavar="--team", action="store",help="H1 
 ##Setup Target ListVulns Parser
 target_listvulns_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListIPs Parser
+target_listips_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListTech Parser
+target_listtech_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListPorts Parser
+target_listports_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListEndPoints Parser
+target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 
 args = main_parser.parse_args()
 s: requests.Session
@@ -94,12 +98,3 @@ else:
 #Target
 if(args.options == 'target'):
     RETarget(args, s)
-##Add
-##Remove
-##List
-##ListVulns
-##ListIps
-##ListTechnologies
-##ListPorts
-##ListEndpoints
-
