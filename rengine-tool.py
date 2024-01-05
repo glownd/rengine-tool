@@ -6,6 +6,7 @@ from getpass import getpass
 #Import custom classes
 from Classes.re_authorize import REAuthorize
 from Classes.re_target import RETarget
+from Classes.re_scan import REScan
 
 #Supress HTTPS warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -75,6 +76,7 @@ target_add_parser.add_argument("-d", metavar="--desc", action="store",help="Targ
 target_add_parser.add_argument("-h1", metavar="--team", action="store",help="H1 Team Handle")
 
 ##Setup Target List Parser -- Nothing to do here
+#TODO
 ##Setup Target Remove Parser
 ##Setup Target ListVulns Parser
 target_listvulns_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
@@ -88,6 +90,24 @@ target_listports_parser.add_argument("-ti", metavar="--target-id", action="store
 target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 target_listeps_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target", required=True)
 
+#Scan
+#scan_add_parser
+#scan_remove_parser 
+scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",help="Target")
+#scan_start_parser
+#scan_stop_parser
+# scan_status/#
+# listVulnerability
+# QueryInterestingSubdomains
+# listInterestingEndpoints
+# listIPs
+# listScanLogs
+# ListTechnology
+# ListPorts
+# action/stop/scan/
+# listEndpoints
+# listDirectories
+
 args = main_parser.parse_args()
 s: requests.Session
 #Authorize
@@ -99,3 +119,7 @@ else:
 #Target
 if(args.options == 'target'):
     RETarget(args, s)
+
+#Scan
+if(args.options == 'scan'):
+    REScan(args, s)
