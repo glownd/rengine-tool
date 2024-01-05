@@ -109,12 +109,12 @@ class RETarget():
     @staticmethod
     def listIPs(args, s):
         baseUrl = s.cookies['hostname']
-        listIPsUrl = baseUrl + 'api/listIps/'
+        listIPsUrl = baseUrl + 'api/queryIps/'
 
         csrf_token = s.cookies['csrftoken']
         headers = {'Referer': listIPsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
-        attr = {'target_id': args.ti}
-        r = s.get(listIPsUrl, json=attr, headers=headers, verify=False)
+        params = {'target_id': args.ti}
+        r = s.get(listIPsUrl, params=params, headers=headers, verify=False)
         j = r.json()
 
         #If JSON output
@@ -123,7 +123,7 @@ class RETarget():
         #Lets do some formating for non-json output
         else:
             data = []
-            for i in j['results']:
+            for i in j['ips']:
                 id = i['id']
                 address = i['address']
                 is_cdn = i['is_cdn']

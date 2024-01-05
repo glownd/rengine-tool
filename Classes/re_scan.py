@@ -16,8 +16,8 @@ class REScan():
                     self.listScanStatus(args, s)
                 # case 'list-vulns':
                 #     self.listVulns(args, s)
-                # case 'list-ips':
-                #     self.listIPs(args, s)
+                case 'list-ips':
+                     self.listIPs(args, s)
                 # case 'list-tech':
                 #     self.listTech(args, s)
                 # case 'list-ports':
@@ -106,5 +106,38 @@ class REScan():
                 scan_type = scan['scan_type']['engine_name']
                 data.append([status, id, domain, start_date, stop_date, progress, scan_type])
         return data
+    
+    @staticmethod
+    def listIPs(args, s):
+        baseUrl = s.cookies['hostname']
+        listIPsUrl = baseUrl + 'api/queryIps/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listIPsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        params = {'scan_id': args.si}
+        r = s.get(listIPsUrl, params=params, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['ips']:
+                id = i['id']
+                address = i['address']
+                is_cdn = i['is_cdn']
+                version = i['version']
+                is_private = i['is_private']
+                reverse_pointer = i['reverse_pointer']
+                geo_iso = i['geo_iso']
+
+                #TODO: Need to get a scan with ports & ip_subscan_ids to see the output
+                #TODO: Loop through ports / ip_subscan_idsS
+                data.append([id, address, is_cdn, version, is_private, reverse_pointer, geo_iso])
+
+            print (tabulate(data, headers=["ID", "Address", "IsCDN", "Version", "IsPrivate", "Reverse Pointer", "GeoISO"]))
+
 
         
