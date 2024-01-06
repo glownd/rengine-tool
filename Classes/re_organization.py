@@ -13,6 +13,8 @@ class REOrganization():
                     self.listOrganizations(args, s)
                 case 'list-targets':
                     self.listOrganizationTargets(args, s)
+                case 'add':
+                    self.addOrganization(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -20,7 +22,6 @@ class REOrganization():
 
     @staticmethod
     def listOrganizations(args, s):
-        pass
         baseUrl = s.cookies['hostname']
         listOrganizationsUrl = baseUrl + 'api/listOrganizations/'
 
@@ -46,11 +47,8 @@ class REOrganization():
 
             print (tabulate(data, headers=["ID", "Name", "Description", "Project ID", "Domain IDs"]))
 
-
-    #queryTargetsInOrganization
     @staticmethod
     def listOrganizationTargets(args, s):
-        pass
         baseUrl = s.cookies['hostname']
         listOrganizationsUrl = baseUrl + 'api/queryTargetsInOrganization/'
 
@@ -80,3 +78,29 @@ class REOrganization():
             data.append([id, name, description, pid, dids, domains])
 
             print (tabulate(data, headers=["ID", "Name", "Description", "Project ID", "Domain IDs", "Domains"]))
+    
+    @staticmethod
+    def addOrganization(args, s):
+        baseUrl = s.cookies['hostname']
+        addOrganizationUrl = baseUrl + '/target/' + args.pn + '/add/organization'
+
+        csrf_token = s.cookies['csrftoken']
+        data = {"name": args.on, "description": args.d}
+        domains = []
+        if ',' in args.ti:
+            for args.ti in args.ti.split(','):
+                domains.append(int(args.ti))
+            data["domains"] = domains
+        else:
+            data["domains"] = args.ti
+
+        print(data)
+        headers = {'Referer': addOrganizationUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
+        r = s.post(addOrganizationUrl, data=data, headers=headers, verify=False)
+        print(r.status_code)
+        print(r.text)
+        
+        if(r.status_code == 200):
+            print("Looks successful!")
+        else:
+            print("ERROR: " + r.status_code)

@@ -43,7 +43,7 @@ target_listeps_parser = target_action_subparser.add_parser("list-eps", help="Lis
 #Organization Actions
 organization_action_subparser = organization_parser.add_subparsers(title="organization_action",dest="organization_action_command")
 organization_add_parser = organization_action_subparser.add_parser("add", help="Add organization", parents=[parent_parser])
-organization_remove_parser = organization_action_subparser.add_parser("remove", help="Remove organization", parents=[parent_parser])
+#organization_remove_parser = organization_action_subparser.add_parser("remove", help="Remove organization", parents=[parent_parser])
 organization_list_parser = organization_action_subparser.add_parser("list", help="List organizations", parents=[parent_parser])
 organization_targets_parser = organization_action_subparser.add_parser("list-targets", help="List organization targets", parents=[parent_parser])
 
@@ -129,7 +129,13 @@ scan_listeps_parser.add_argument("-si", metavar="--scan-id", action="store",help
 # listDirectories
 
 #Organization
+# List
 organization_targets_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
+# Add
+organization_add_parser.add_argument("-on", metavar="--organization-name", action="store",help="Organization Name", required=True)
+organization_add_parser.add_argument("-d", metavar="--organization-description", action="store",help="Organization Description", required=True)
+organization_add_parser.add_argument("-pn", metavar="--slug", action="store",help="Project Name / Slug", required=True)
+organization_add_parser.add_argument("-ti", metavar="--target-ids", action="store",help="Target IDs (seperate multiple with commas)", required=True)
 
 args = main_parser.parse_args()
 s: requests.Session
