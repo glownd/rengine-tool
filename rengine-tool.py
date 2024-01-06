@@ -134,13 +134,13 @@ if(args.options == 'authorize'):
 else:
     s = REAuthorize.getSession()
 
-#Target
-if(args.options == 'target'):
-    RETarget(args, s)
-
-#Scan
-if(args.options == 'scan'):
-    REScan(args, s)
-
-if(args.options == 'engine'):
-    REEngine(args, s)
+match args.options.lower():
+    case 'target':
+        RETarget(args, s)
+    case 'scan':
+        REScan(args, s)
+    case 'engine':
+        REEngine(args, s)
+    case default:
+        #Lets do nothing
+        pass
