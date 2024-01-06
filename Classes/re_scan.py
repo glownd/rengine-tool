@@ -24,6 +24,8 @@ class REScan():
                     self.listPorts(args, s)
                 case 'list-eps':
                     self.listEndpoints(args, s)
+                case 'list-scanlogs':
+                    self.listScanLogs(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -250,4 +252,31 @@ class REScan():
                 data.append([id, name, severity, cvss_score, open_status, description, subdomain_name, cves])
 
             print (tabulate(data, headers=["ID", "Name", "Severity", "CVSS", "Open", "Description", "Subdomain", "CVEs"]))
+    
+    @staticmethod
+    def listScanLogs(args, s):
+        baseUrl = s.cookies['hostname']
+        listScanLogsUrl = baseUrl + 'api/listScanLogs/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listScanLogsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        attr = {'scan_id': args.si}
+        r = s.get(listScanLogsUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['results']:
+                time = '' if i['time'] is None else datetime.datetime.strptime(i['time'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+                command = i['command']
+                return_code = i['return_code']
+                output = '' if i['output'] is None else i['output']
+                if(args.wo):
+                    print('Time:\t' + time + '\nCommand:\t' + command + '\nReturn Code:\t' + str(return_code) + '\nOutput:\t' + output + '\n')
+                else:
+                    print('Time:\t' + time + '\nCommand:\t' + command + '\nReturn Code:\t' + str(return_code) + '\n')
     
