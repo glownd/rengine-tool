@@ -8,6 +8,8 @@ from Classes.re_authorize import REAuthorize
 from Classes.re_target import RETarget
 from Classes.re_scan import REScan
 from Classes.re_engine import REEngine
+from Classes.re_organization import REOrganization
+from Classes.re_project import REProject
 
 #Supress HTTPS warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -141,6 +143,10 @@ match args.options.lower():
         REScan(args, s)
     case 'engine':
         REEngine(args, s)
+    case 'organization':
+        REOrganization(args, s)
+    case 'project':
+        REProject(args, s)
     case default:
         #Lets do nothing
         pass
