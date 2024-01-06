@@ -98,14 +98,14 @@ target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",
 target_listeps_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 
 #Scan
-#scan_add_parser
-#scan_remove_parser 
+# scan_remove_parser 
+# list
 scan_list_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug")
-#scan_start_parser
+# scan_start_parser
 scan_start_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 scan_start_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target ID", required=True)
 scan_start_parser.add_argument("-ei", metavar="--engine-id", action="store",help="Engine ID", required=True)
-#scan_stop_parser
+# scan_stop_parser
 # scan_status
 scan_status_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 # listVulnerability
@@ -121,7 +121,6 @@ scan_listscanlogs_parser.add_argument("-wo", action="store_true",help="Print com
 scan_listtech_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # ListPorts
 scan_listports_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# action/stop/scan/
 # listEndpoints
 scan_listeps_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # listDirectories
