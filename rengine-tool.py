@@ -61,6 +61,7 @@ scan_status_parser = scan_action_subparser.add_parser("status", help="Get the st
 scan_listips_parser = scan_action_subparser.add_parser("list-ips", help="Get IP Addresses from scan", parents=[parent_parser])
 scan_listeps_parser = scan_action_subparser.add_parser("list-eps", help="Get Endpoints from scan", parents=[parent_parser])
 scan_listtech_parser = scan_action_subparser.add_parser("list-tech", help="List found technoligies in scan", parents=[parent_parser])
+scan_listports_parser = scan_action_subparser.add_parser("list-ports", help="List found ports in scan", parents=[parent_parser])
 
 #Engine Actions
 engine_action_subparser = engine_parser.add_subparsers(title="engine_action",dest="engine_action_command")
@@ -111,6 +112,7 @@ scan_listips_parser.add_argument("-si", metavar="--scan-id", action="store",help
 # ListTechnology
 scan_listtech_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # ListPorts
+scan_listports_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # action/stop/scan/
 # listEndpoints
 scan_listeps_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)

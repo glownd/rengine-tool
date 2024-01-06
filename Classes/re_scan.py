@@ -20,8 +20,8 @@ class REScan():
                     self.listIPs(args, s)
                 case 'list-tech':
                     self.listTech(args, s)
-                # case 'list-ports':
-                #     self.listPorts(args, s)
+                case 'list-ports':
+                    self.listPorts(args, s)
                 case 'list-eps':
                     self.listEndpoints(args, s)
                 case default:
@@ -189,3 +189,30 @@ class REScan():
                 data.append([name])
 
             print (tabulate(data, headers=["Name"]))
+    
+    @staticmethod
+    def listPorts(args, s):
+        baseUrl = s.cookies['hostname']
+        listPortsUrl = baseUrl + 'api/queryPorts/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listPortsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        attr = {'scan_id': args.si}
+        r = s.get(listPortsUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['ports']:
+                number = i['number']
+                service = i['service_name']
+                description = i['description']
+                uncommon = i['is_uncommon']
+
+                data.append([number, service, description, uncommon])
+
+            print (tabulate(data, headers=["Port", "Service", "Desc", "Uncommon"]))
