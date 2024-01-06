@@ -60,6 +60,7 @@ scan_stop_parser = scan_action_subparser.add_parser("stop", help="Stop scan", pa
 scan_status_parser = scan_action_subparser.add_parser("status", help="Get the status of scans", parents=[parent_parser])
 scan_listips_parser = scan_action_subparser.add_parser("list-ips", help="Get IP Addresses from scan", parents=[parent_parser])
 scan_listeps_parser = scan_action_subparser.add_parser("list-eps", help="Get Endpoints from scan", parents=[parent_parser])
+scan_listtech_parser = scan_action_subparser.add_parser("list-tech", help="List found technoligies in scan", parents=[parent_parser])
 
 #Engine Actions
 engine_action_subparser = engine_parser.add_subparsers(title="engine_action",dest="engine_action_command")
@@ -108,6 +109,7 @@ scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",
 scan_listips_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # listScanLogs
 # ListTechnology
+scan_listtech_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # ListPorts
 # action/stop/scan/
 # listEndpoints

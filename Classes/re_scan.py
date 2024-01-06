@@ -18,8 +18,8 @@ class REScan():
                 #     self.listVulns(args, s)
                 case 'list-ips':
                     self.listIPs(args, s)
-                # case 'list-tech':
-                #     self.listTech(args, s)
+                case 'list-tech':
+                    self.listTech(args, s)
                 # case 'list-ports':
                 #     self.listPorts(args, s)
                 case 'list-eps':
@@ -166,4 +166,26 @@ class REScan():
 
             print (tabulate(data, headers=["URL", "Title", "Status", "Webserver"]))
 
-        
+    @staticmethod
+    def listTech(args, s):
+        baseUrl = s.cookies['hostname']
+        listTechUrl = baseUrl + 'api/queryTechnologies/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listTechUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
+        attr = {'scan_id': args.si}
+        r = s.get(listTechUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['technologies']:
+                name = i['name']
+
+                data.append([name])
+
+            print (tabulate(data, headers=["Name"]))
