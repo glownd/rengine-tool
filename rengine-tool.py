@@ -7,6 +7,7 @@ from getpass import getpass
 from Classes.re_authorize import REAuthorize
 from Classes.re_target import RETarget
 from Classes.re_scan import REScan
+from Classes.re_engine import REEngine
 
 #Supress HTTPS warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -140,3 +141,6 @@ if(args.options == 'target'):
 #Scan
 if(args.options == 'scan'):
     REScan(args, s)
+
+if(args.options == 'engine'):
+    REEngine(args, s)
