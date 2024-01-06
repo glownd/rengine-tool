@@ -20,11 +20,11 @@ class REOrganization():
     def listOrganizations(args, s):
         pass
         baseUrl = s.cookies['hostname']
-        listEnginesUrl = baseUrl + 'api/listOrganizations/'
+        listOrganizationsUrl = baseUrl + 'api/listOrganizations/'
 
         csrf_token = s.cookies['csrftoken']
-        headers = {'Referer': listEnginesUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
-        r = s.get(listEnginesUrl, headers=headers, verify=False)
+        headers = {'Referer': listOrganizationsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.get(listOrganizationsUrl, headers=headers, verify=False)
         j = r.json()
 
         #If JSON output
