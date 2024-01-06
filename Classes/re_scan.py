@@ -26,6 +26,8 @@ class REScan():
                     self.listEndpoints(args, s)
                 case 'list-scanlogs':
                     self.listScanLogs(args, s)
+                case 'start':
+                    self.startScan(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -279,4 +281,22 @@ class REScan():
                     print('Time:\t' + time + '\nCommand:\t' + command + '\nReturn Code:\t' + str(return_code) + '\nOutput:\t' + output + '\n')
                 else:
                     print('Time:\t' + time + '\nCommand:\t' + command + '\nReturn Code:\t' + str(return_code) + '\n')
+    
+    #TODO: This should eventually be modified to accept more options
+    @staticmethod
+    def startScan(args, s):
+        #Set URLs
+        baseUrl = s.cookies['hostname']
+        startScanUrl = baseUrl + 'scan/' + args.pn + '/start/' + args.ti
+
+        #Start scan on target
+        csrf_token = s.cookies['csrftoken']
+        data = '?csrfmiddlewaretoken=' + csrf_token + '&scan_mode=' + args.ei + '&importSubdomainTextArea=&outOfScopeSubdomainTextarea=&filterPath='
+        headers = {'Referer': startScanUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
+        r = s.post(startScanUrl, data=data, headers=headers, verify=False)
+
+        if("Scan history" in r.text):
+            print("SUCCESS")
+        else:
+            print("FAILURE: Something went wrong!")
     

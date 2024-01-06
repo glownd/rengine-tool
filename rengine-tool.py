@@ -95,16 +95,19 @@ target_listtech_parser.add_argument("-ti", metavar="--target-id", action="store"
 target_listports_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListEndPoints Parser
 target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-target_listeps_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug", required=True)
+target_listeps_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 
 #Scan
 #scan_add_parser
 #scan_remove_parser 
-scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug")
+scan_list_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug")
 #scan_start_parser
+scan_start_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
+scan_start_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target ID", required=True)
+scan_start_parser.add_argument("-ei", metavar="--engine-id", action="store",help="Engine ID", required=True)
 #scan_stop_parser
 # scan_status
-scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug", required=True)
+scan_status_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 # listVulnerability
 scan_listvulns_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # QueryInterestingSubdomains
