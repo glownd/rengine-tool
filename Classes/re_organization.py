@@ -107,23 +107,11 @@ class REOrganization():
     @staticmethod
     def removeOrganization(args, s):
         baseUrl = s.cookies['hostname']
-        addOrganizationUrl = baseUrl + '/target/' + args.pn + '/add/organization'
+        removeOrganizationUrl = baseUrl + '/target/delete/organization/' + str(args.oi)
 
         csrf_token = s.cookies['csrftoken']
-        data = {"name": args.on, "description": args.d}
-        domains = []
-        if ',' in args.ti:
-            for args.ti in args.ti.split(','):
-                domains.append(int(args.ti))
-            data["domains"] = domains
-        else:
-            data["domains"] = args.ti
-
-        print(data)
-        headers = {'Referer': addOrganizationUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
-        r = s.post(addOrganizationUrl, data=data, headers=headers, verify=False)
-        print(r.status_code)
-        print(r.text)
+        headers = {'Referer': removeOrganizationUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.post(removeOrganizationUrl, headers=headers, verify=False)
         
         if(r.status_code == 200):
             print("Looks successful!")
