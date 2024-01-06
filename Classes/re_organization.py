@@ -11,6 +11,8 @@ class REOrganization():
             match args.organization_action_command.lower():
                 case 'list':
                     self.listOrganizations(args, s)
+                case 'list-targets':
+                    self.listOrganizationTargets(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -43,3 +45,38 @@ class REOrganization():
                 data.append([id, name, description, pid, dids])
 
             print (tabulate(data, headers=["ID", "Name", "Description", "Project ID", "Domain IDs"]))
+
+
+    #queryTargetsInOrganization
+    @staticmethod
+    def listOrganizationTargets(args, s):
+        pass
+        baseUrl = s.cookies['hostname']
+        listOrganizationsUrl = baseUrl + 'api/queryTargetsInOrganization/'
+
+        csrf_token = s.cookies['csrftoken']
+        params = {"organization_id": args.oi}
+        headers = {'Referer': listOrganizationsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.get(listOrganizationsUrl, params=params, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['organization']:
+                id = i['id']
+                name = i['name']
+                description = i['description']
+                pid = i['project']
+                dids = i['domains']
+            
+            domains = []
+            for d in j['domains']:
+                domains.append(d['name'])
+
+            data.append([id, name, description, pid, dids, domains])
+
+            print (tabulate(data, headers=["ID", "Name", "Description", "Project ID", "Domain IDs", "Domains"]))

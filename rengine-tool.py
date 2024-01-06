@@ -45,7 +45,7 @@ organization_action_subparser = organization_parser.add_subparsers(title="organi
 organization_add_parser = organization_action_subparser.add_parser("add", help="Add organization", parents=[parent_parser])
 organization_remove_parser = organization_action_subparser.add_parser("remove", help="Remove organization", parents=[parent_parser])
 organization_list_parser = organization_action_subparser.add_parser("list", help="List organizations", parents=[parent_parser])
-organization_targets_parser = organization_action_subparser.add_parser("list-vulns", help="List organization targets", parents=[parent_parser])
+organization_targets_parser = organization_action_subparser.add_parser("list-targets", help="List organization targets", parents=[parent_parser])
 
 #Project Actions
 project_action_subparser = project_parser.add_subparsers(title="project_action",dest="project_action_command")
@@ -127,6 +127,9 @@ scan_listports_parser.add_argument("-si", metavar="--scan-id", action="store",he
 # listEndpoints
 scan_listeps_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # listDirectories
+
+#Organization
+organization_targets_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
 
 args = main_parser.parse_args()
 s: requests.Session
