@@ -62,6 +62,7 @@ scan_listips_parser = scan_action_subparser.add_parser("list-ips", help="Get IP 
 scan_listeps_parser = scan_action_subparser.add_parser("list-eps", help="Get Endpoints from scan", parents=[parent_parser])
 scan_listtech_parser = scan_action_subparser.add_parser("list-tech", help="List found technoligies in scan", parents=[parent_parser])
 scan_listports_parser = scan_action_subparser.add_parser("list-ports", help="List found ports in scan", parents=[parent_parser])
+scan_listvulns_parser = scan_action_subparser.add_parser("list-vulns", help="List scan vulnerabilities", parents=[parent_parser])
 
 #Engine Actions
 engine_action_subparser = engine_parser.add_subparsers(title="engine_action",dest="engine_action_command")
@@ -104,6 +105,7 @@ scan_list_parser.add_argument("-pn", metavar="--project-name", action="store",he
 # scan_status
 scan_status_parser.add_argument("-pn", metavar="--project-name", action="store",help="Project name / slug", required=True)
 # listVulnerability
+scan_listvulns_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 # QueryInterestingSubdomains
 # listInterestingEndpoints
 # listIPs

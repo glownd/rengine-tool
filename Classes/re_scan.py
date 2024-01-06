@@ -14,8 +14,8 @@ class REScan():
                     self.listScans(args, s)
                 case 'status':
                     self.listScanStatus(args, s)
-                # case 'list-vulns':
-                #     self.listVulns(args, s)
+                case 'list-vulns':
+                    self.listVulns(args, s)
                 case 'list-ips':
                     self.listIPs(args, s)
                 case 'list-tech':
@@ -216,3 +216,38 @@ class REScan():
                 data.append([number, service, description, uncommon])
 
             print (tabulate(data, headers=["Port", "Service", "Desc", "Uncommon"]))
+    
+    @staticmethod
+    def listVulns(args, s):
+        baseUrl = s.cookies['hostname']
+        listVulnsUrl = baseUrl + 'api/listVulnerability/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listVulnsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        attr = {'scan_history': args.si}
+        r = s.get(listVulnsUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['results']:
+                id = i['id']
+                name = i['name']
+                severity = i['severity']
+                description = i['description']
+                cvss_score = i['cvss_score']
+                open_status = i['open_status']
+                subdomain_name = i['subdomain']['name']
+
+                #Loop through CVEs
+                cves = ""
+                for cve in i['cve_ids']:
+                    cves = cves + cve['name'] + ', '
+                data.append([id, name, severity, cvss_score, open_status, description, subdomain_name, cves])
+
+            print (tabulate(data, headers=["ID", "Name", "Severity", "CVSS", "Open", "Description", "Subdomain", "CVEs"]))
+    
