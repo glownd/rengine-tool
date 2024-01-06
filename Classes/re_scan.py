@@ -17,13 +17,13 @@ class REScan():
                 # case 'list-vulns':
                 #     self.listVulns(args, s)
                 case 'list-ips':
-                     self.listIPs(args, s)
+                    self.listIPs(args, s)
                 # case 'list-tech':
                 #     self.listTech(args, s)
                 # case 'list-ports':
                 #     self.listPorts(args, s)
-                # case 'list-eps':
-                #     self.listEndpoints(args, s)
+                case 'list-eps':
+                    self.listEndpoints(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -139,5 +139,31 @@ class REScan():
 
             print (tabulate(data, headers=["ID", "Address", "IsCDN", "Version", "IsPrivate", "Reverse Pointer", "GeoISO"]))
 
+    @staticmethod
+    def listEndpoints(args, s):
+        baseUrl = s.cookies['hostname']
+        listEndpointsUrl = baseUrl + 'api/queryEndpoints/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': listEndpointsUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        attr = {'scan_id': args.si}
+        r = s.get(listEndpointsUrl, params=attr, headers=headers, verify=False)
+        j = r.json()
+
+        #If JSON output
+        if(args.oj):
+            print(json.dumps(j, indent=2))
+        #Lets do some formating for non-json output
+        else:
+            data = []
+            for i in j['endpoints']:
+                url = i['http_url']
+                title = i['page_title']
+                status = i['http_status']
+                webserver = i['webserver']
+
+                data.append([url, title, status, webserver])
+
+            print (tabulate(data, headers=["URL", "Title", "Status", "Webserver"]))
 
         
