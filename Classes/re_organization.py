@@ -15,6 +15,8 @@ class REOrganization():
                     self.listOrganizationTargets(args, s)
                 case 'add':
                     self.addOrganization(args, s)
+                case 'remove':
+                    self.removeOrganization(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -81,6 +83,29 @@ class REOrganization():
     
     @staticmethod
     def addOrganization(args, s):
+        baseUrl = s.cookies['hostname']
+        addOrganizationUrl = baseUrl + '/target/' + args.pn + '/add/organization'
+
+        csrf_token = s.cookies['csrftoken']
+        data = {"name": args.on, "description": args.d}
+        domains = []
+        if ',' in args.ti:
+            for args.ti in args.ti.split(','):
+                domains.append(int(args.ti))
+            data["domains"] = domains
+        else:
+            data["domains"] = args.ti
+
+        headers = {'Referer': addOrganizationUrl,'Content-type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf_token}
+        r = s.post(addOrganizationUrl, data=data, headers=headers, verify=False)
+        
+        if(r.status_code == 200):
+            print("Looks successful!")
+        else:
+            print("ERROR: " + r.status_code)
+    
+    @staticmethod
+    def removeOrganization(args, s):
         baseUrl = s.cookies['hostname']
         addOrganizationUrl = baseUrl + '/target/' + args.pn + '/add/organization'
 
