@@ -1,7 +1,7 @@
 # rengine-tool
 CLI tool for interacting with ReNgine, leveraging the API and web requests
 
-You must use the authorize first.  Once you are done using the tool, it is highly recommended to delete your authorization with: rengine-tool authorize -d
+You must use the authorize option first.  Once you are done using the tool, it is highly recommended to delete your authorization with: rengine-tool authorize -d
 
 **GENERAL:**
 ```
