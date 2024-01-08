@@ -84,66 +84,62 @@ target_add_parser.add_argument("-t", metavar="--target", action="store",help="Ta
 target_add_parser.add_argument("-d", metavar="--desc", action="store",help="Target Description", default="")
 target_add_parser.add_argument("-h1", metavar="--team", action="store",help="H1 Team Handle")
 
-##Setup Target List Parser -- Nothing to do here
-#TODO
-##Setup Target Remove Parser
+#Target
+##list -- Nothing to do here
+##remove
 target_delete_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-##Setup Target ListVulns Parser
+##listvulns
 target_listvulns_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-##Setup Target ListIPs Parser
+##listIPs
 target_listips_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-##Setup Target ListTech Parser
+##listTech
 target_listtech_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-##Setup Target ListPorts Parser
+##listPorts
 target_listports_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
-##Setup Target ListEndPoints Parser
+##listEndPoints
 target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 target_listeps_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 
 #Scan
-# scan_delete_parser 
-#https://localhost:4443/scan/delete/scan/125
+##delete
 scan_delete_group = scan_delete_parser.add_mutually_exclusive_group(required=True)
 scan_delete_group.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID")
 scan_delete_group.add_argument("-ssi", metavar="--subscan-id", action="store",help="Sub-scan ID")
-# list
+##list
 scan_list_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug")
-# scan_start_parser
+##start
 scan_start_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 scan_start_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target ID", required=True)
 scan_start_parser.add_argument("-ei", metavar="--engine-id", action="store",help="Engine ID", required=True)
-# scan_stop_parser)
+##stop
 scan_stop_group = scan_stop_parser.add_mutually_exclusive_group(required=True)
 scan_stop_group.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID")
 scan_stop_group.add_argument("-ssi", metavar="--subscan-id", action="store",help="Sub-scan ID")
-# scan_status
+##status
 scan_status_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
-# listVulnerability
+##listvulns
 scan_listvulns_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# QueryInterestingSubdomains
-# listInterestingEndpoints
-# listIPs
+##listIPs
 scan_listips_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# listScanLogs
+##listScanLogs
 scan_listscanlogs_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
 scan_listscanlogs_parser.add_argument("-wo", action="store_true",help="Print command output", required=True)
-# ListTechnology
+##listTechnology
 scan_listtech_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# ListPorts
+##ListPorts
 scan_listports_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# listEndpoints
+##listEndpoints
 scan_listeps_parser.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID", required=True)
-# listDirectories
 
 #Organization
-# List
+##list
 organization_targets_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
-# Add
+##add
 organization_add_parser.add_argument("-on", metavar="--organization-name", action="store",help="Organization Name", required=True)
 organization_add_parser.add_argument("-d", metavar="--organization-description", action="store",help="Organization Description", required=True)
 organization_add_parser.add_argument("-pn", metavar="--slug", action="store",help="Project Name / Slug", required=True)
 organization_add_parser.add_argument("-ti", metavar="--target-ids", action="store",help="Target IDs (seperate multiple with commas)", required=True)
-# Remove
+##remove
 organization_remove_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
 
 args = main_parser.parse_args()
