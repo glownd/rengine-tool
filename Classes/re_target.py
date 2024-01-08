@@ -23,6 +23,8 @@ class RETarget():
                     self.listPorts(args, s)
                 case 'list-eps':
                     self.listEndpoints(args, s)
+                case 'delete':
+                    self.deleteTarget(args, s)
                 case default:
                     print("What are we doing?")
         else:
@@ -215,3 +217,21 @@ class RETarget():
                 data.append([number, service, description, uncommon])
 
             print (tabulate(data, headers=["Port", "Service", "Desc", "Uncommon"]))
+    
+    @staticmethod
+    def deleteTarget(args, s):
+        baseUrl = s.cookies['hostname']
+        deleteTargetUrl = baseUrl + 'target/delete/target/' + args.ti
+
+        csrf_token = s.cookies['csrftoken']
+        data = {"csrfmiddlewaretoken": csrf_token}
+        headers = {'Referer': deleteTargetUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.post(deleteTargetUrl, json=data, headers=headers, verify=False)
+        try:
+            j = r.json()
+            if(j["status"] == "true"):
+                print("SUCCESS")
+            else:
+                print(r.text)
+        except:
+            print("ERROR: " + r.text)

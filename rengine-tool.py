@@ -32,8 +32,7 @@ engine_parser = option_subparsers.add_parser("engine", help="",parents=[parent_p
 #Target Actions
 target_action_subparser = target_parser.add_subparsers(title="target_action",dest="target_action_command")
 target_add_parser = target_action_subparser.add_parser("add", help="Add target", parents=[parent_parser])
-#TODO
-target_remove_parser = target_action_subparser.add_parser("remove", help="Remove target", parents=[parent_parser])
+target_delete_parser = target_action_subparser.add_parser("delete", help="Remove target", parents=[parent_parser])
 target_list_parser = target_action_subparser.add_parser("list", help="List targets", parents=[parent_parser])
 target_listvulns_parser = target_action_subparser.add_parser("list-vulns", help="List target vulnerabilities", parents=[parent_parser])
 target_listips_parser = target_action_subparser.add_parser("list-ips", help="List target IPs", parents=[parent_parser])
@@ -49,12 +48,10 @@ organization_list_parser = organization_action_subparser.add_parser("list", help
 organization_targets_parser = organization_action_subparser.add_parser("list-targets", help="List organization targets", parents=[parent_parser])
 
 #Project Actions
-project_action_subparser = project_parser.add_subparsers(title="project_action",dest="project_action_command")
-#TODO -- not sure if possible
-project_add_parser = project_action_subparser.add_parser("add", help="Add project", parents=[parent_parser])
-#TODO -- not sure if possible
-project_remove_parser = project_action_subparser.add_parser("remove", help="Remove project", parents=[parent_parser])
-project_list_parser = project_action_subparser.add_parser("list", help="List projects", parents=[parent_parser])
+# project_action_subparser = project_parser.add_subparsers(title="project_action",dest="project_action_command")
+# project_add_parser = project_action_subparser.add_parser("add", help="Add project", parents=[parent_parser])
+# project_remove_parser = project_action_subparser.add_parser("remove", help="Remove project", parents=[parent_parser])
+# project_list_parser = project_action_subparser.add_parser("list", help="List projects", parents=[parent_parser])
 
 #Scan Actions
 scan_action_subparser = scan_parser.add_subparsers(title="scan_action",dest="scan_action_command")
@@ -90,6 +87,7 @@ target_add_parser.add_argument("-h1", metavar="--team", action="store",help="H1 
 ##Setup Target List Parser -- Nothing to do here
 #TODO
 ##Setup Target Remove Parser
+target_delete_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListVulns Parser
 target_listvulns_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target", required=True)
 ##Setup Target ListIPs Parser
