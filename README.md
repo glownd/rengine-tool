@@ -3,7 +3,8 @@ CLI tool for interacting with ReNgine, leveraging the API and web requests
 
 You must use the authorize first.  Once you are done using the tool, it is highly recommended to delete your authorization with: rengine-tool authorize -d
 
-GENERAL:
+**GENERAL:**
+```
 Usage: rengine-tool.py [-h] [-oj] {authorize,target,organization,project,scan,engine} ...
 
 options:
@@ -18,8 +19,9 @@ options:
     project
     scan
     engine
-
-AUTHORIZE
+```
+**AUTHORIZE**
+```
 usage: rengine-tool.py authorize [-h] [-b --base-url] [-u --user] [-p --password] [-d]
 
 options:
@@ -28,8 +30,9 @@ options:
   -u --user      ReNgine Username
   -p --password  ReNgine Password
   -d             Deletes your session. You should always do this once finished with the tool
-
-TARGET
+```
+**TARGET**
+```
 usage: rengine-tool.py target [-h] {add,delete,list,list-vulns,list-ips,list-tech,list-ports,list-eps} ...
 
 options:
@@ -45,8 +48,9 @@ target_action:
     list-tech           List target technologies
     list-ports          List target ports
     list-eps            List target endpoints
-
-ORGANIZATION
+```
+**ORGANIZATION**
+```
 usage: rengine-tool.py organization [-h] {add,remove,list,list-targets} ...
 
 options:
@@ -58,8 +62,9 @@ organization_action:
     remove              Remove organization
     list                List organizations
     list-targets        List organization targets
-
-SCAN
+```
+**SCAN**
+```
 usage: rengine-tool.py scan [-h] {list,start,stop,delete,status,list-ips,list-eps,list-tech,list-ports,list-vulns,list-scanlogs} ...
 
 options:
@@ -78,8 +83,9 @@ scan_action:
     list-ports          List found ports in scan
     list-vulns          List scan vulnerabilities
     list-scanlogs       List a scans logs
-
-ENGINE
+```
+**ENGINE**
+```
 usage: rengine-tool.py engine [-h] {list} ...
 
 options:
@@ -87,4 +93,5 @@ options:
 
 engine_action:
   {list}
+```
     list      List engines
