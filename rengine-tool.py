@@ -32,6 +32,7 @@ engine_parser = option_subparsers.add_parser("engine", help="",parents=[parent_p
 #Target Actions
 target_action_subparser = target_parser.add_subparsers(title="target_action",dest="target_action_command")
 target_add_parser = target_action_subparser.add_parser("add", help="Add target", parents=[parent_parser])
+#TODO
 target_remove_parser = target_action_subparser.add_parser("remove", help="Remove target", parents=[parent_parser])
 target_list_parser = target_action_subparser.add_parser("list", help="List targets", parents=[parent_parser])
 target_listvulns_parser = target_action_subparser.add_parser("list-vulns", help="List target vulnerabilities", parents=[parent_parser])
@@ -49,17 +50,18 @@ organization_targets_parser = organization_action_subparser.add_parser("list-tar
 
 #Project Actions
 project_action_subparser = project_parser.add_subparsers(title="project_action",dest="project_action_command")
+#TODO -- not sure if possible
 project_add_parser = project_action_subparser.add_parser("add", help="Add project", parents=[parent_parser])
+#TODO -- not sure if possible
 project_remove_parser = project_action_subparser.add_parser("remove", help="Remove project", parents=[parent_parser])
 project_list_parser = project_action_subparser.add_parser("list", help="List projects", parents=[parent_parser])
 
 #Scan Actions
 scan_action_subparser = scan_parser.add_subparsers(title="scan_action",dest="scan_action_command")
-scan_add_parser = scan_action_subparser.add_parser("add", help="Add scan", parents=[parent_parser])
-scan_remove_parser = scan_action_subparser.add_parser("remove", help="Remove scan", parents=[parent_parser])
 scan_list_parser = scan_action_subparser.add_parser("list", help="List scans", parents=[parent_parser])
 scan_start_parser = scan_action_subparser.add_parser("start", help="Start scan", parents=[parent_parser])
 scan_stop_parser = scan_action_subparser.add_parser("stop", help="Stop scan", parents=[parent_parser])
+scan_delete_parser = scan_action_subparser.add_parser("delete", help="Delete scan", parents=[parent_parser])
 scan_status_parser = scan_action_subparser.add_parser("status", help="Get the status of scans", parents=[parent_parser])
 scan_listips_parser = scan_action_subparser.add_parser("list-ips", help="Get IP Addresses from scan", parents=[parent_parser])
 scan_listeps_parser = scan_action_subparser.add_parser("list-eps", help="Get Endpoints from scan", parents=[parent_parser])
@@ -101,14 +103,21 @@ target_listeps_parser.add_argument("-ti", metavar="--target-id", action="store",
 target_listeps_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 
 #Scan
-# scan_remove_parser 
+# scan_delete_parser 
+#https://localhost:4443/scan/delete/scan/125
+scan_delete_group = scan_delete_parser.add_mutually_exclusive_group(required=True)
+scan_delete_group.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID")
+scan_delete_group.add_argument("-ssi", metavar="--subscan-id", action="store",help="Sub-scan ID")
 # list
 scan_list_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug")
 # scan_start_parser
 scan_start_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 scan_start_parser.add_argument("-ti", metavar="--target-id", action="store",help="Target ID", required=True)
 scan_start_parser.add_argument("-ei", metavar="--engine-id", action="store",help="Engine ID", required=True)
-# scan_stop_parser
+# scan_stop_parser)
+scan_stop_group = scan_stop_parser.add_mutually_exclusive_group(required=True)
+scan_stop_group.add_argument("-si", metavar="--scan-id", action="store",help="Scan ID")
+scan_stop_group.add_argument("-ssi", metavar="--subscan-id", action="store",help="Sub-scan ID")
 # scan_status
 scan_status_parser.add_argument("-pn", metavar="--slug", action="store",help="Project name / slug", required=True)
 # listVulnerability

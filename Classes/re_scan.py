@@ -28,6 +28,10 @@ class REScan():
                     self.listScanLogs(args, s)
                 case 'start':
                     self.startScan(args, s)
+                case 'stop':
+                    self.stopScan(args, s)
+                case 'delete':
+                    self.deleteScan(args,s)
                 case default:
                     print("What are we doing?")
         else:
@@ -300,3 +304,63 @@ class REScan():
         else:
             print("FAILURE: Something went wrong!")
     
+    @staticmethod
+    def stopScan(args, s):
+        baseUrl = s.cookies['hostname']
+        stopScanUrl = baseUrl + 'api/action/stop/scan/'
+
+        csrf_token = s.cookies['csrftoken']
+        headers = {'Referer': stopScanUrl,'Content-type': 'application/json', 'X-Csrftoken': csrf_token}
+        if(args.si):
+            data = {"scan_id": args.si}
+        elif(args.ssi):
+            data = {"subscan_id": args.ssi}
+        else:
+            "ERROR: No scan/sub-scan ID provided."
+        
+        r = s.post(stopScanUrl, json=data, headers=headers, verify=False)
+        j = r.json()
+        
+        if(j["status"] == True):
+            print("SUCCESS!")
+        else:
+            print("ERROR: " + j["message"])
+    
+    @staticmethod
+    def deleteScan(args, s):
+        if(args.ssi):
+            REScan.deleteSubScan(args, s)
+        else:
+            #Set URLs
+            baseUrl = s.cookies['hostname']
+            
+            deleteScanUrl = baseUrl + 'scan/delete/scan/' + args.si
+
+            #Start scan on target
+            csrf_token = s.cookies['csrftoken']
+            data = {"csrfmiddlewaretoken": csrf_token}
+            headers = {'Referer': deleteScanUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+            r = s.post(deleteScanUrl, json=data, headers=headers, verify=False)
+
+            if(r.status_code == 200):
+                print("SUCCESS!")
+            else:
+                print('ERROR: ' + r.text)
+    
+    @staticmethod
+    def deleteSubScan(args, s):
+        #Set URLs
+        baseUrl = s.cookies['hostname']
+        deleteSubScanUrl = baseUrl + 'api/action/rows/delete/'
+
+        #Start scan on target
+        csrf_token = s.cookies['csrftoken']
+        data = {"type":"subscan","rows":[args.ssi]}
+        headers = {'Referer': deleteSubScanUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
+        r = s.post(deleteSubScanUrl, json=data, headers=headers, verify=False)
+        j = r.json()
+        
+        if(j["status"] == True):
+            print("SUCCESS!")
+        else:
+            print("ERROR: " + r.text)
