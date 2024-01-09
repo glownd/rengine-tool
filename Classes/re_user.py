@@ -1,7 +1,7 @@
 import argparse
 import requests
 from urllib3.exceptions import InsecureRequestWarning
-import json
+from getpass import getpass
 from tabulate import tabulate
 
 class REUser():
@@ -20,12 +20,14 @@ class REUser():
     def addUser(args, s):
         #Set URLs
         baseUrl = s.cookies['hostname']
-        
         addUserUrl = baseUrl + args.pn + '/admin_interface/update?mode=create'
 
-        #Start scan on target
+        username = REUser.getUsername(args.u)
+        password = REUser.getPassword(args.p)
+        
+        #Add new rengine user
         csrf_token = s.cookies['csrftoken']
-        data = {"username": args.u,"role": args.r, "password":args.p}
+        data = {"username": username,"role": args.r, "password": password}
         headers = {'Referer': addUserUrl,'Content-type': 'application/json', 'X-CSRFToken': csrf_token}
         r = s.post(addUserUrl, json=data, headers=headers, verify=False)
 
@@ -33,3 +35,15 @@ class REUser():
             print("SUCCESS!")
         else:
             print('ERROR: ' + r.text)
+    
+    @staticmethod
+    def getUsername(username):
+        if not username:
+                username = input("Enter username: ")
+        return username
+    
+    @staticmethod
+    def getPassword(password):
+        if not password:
+                password = getpass("Enter password: ")
+        return password

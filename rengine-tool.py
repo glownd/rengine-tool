@@ -149,8 +149,8 @@ organization_add_parser.add_argument("-ti", metavar="--target-ids", action="stor
 organization_remove_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
 
 #User
-user_add_parser.add_argument("-u", metavar="--username", action="store",help="New user's name", required=True)
-user_add_parser.add_argument("-p", metavar="--password", action="store",help="New user's password", required=True)
+user_add_parser.add_argument("-u", metavar="--username", action="store",help="New user's name")
+user_add_parser.add_argument("-p", metavar="--password", action="store",help="New user's password")
 user_add_parser.add_argument("-pn", metavar="--slug", action="store",help="ReNgine Project Name / Slug", required=True)
 user_add_parser.add_argument("-r", metavar="--role", action="store",help="New user's role", required=True)
 
