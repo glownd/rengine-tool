@@ -10,6 +10,7 @@ from Classes.re_scan import REScan
 from Classes.re_engine import REEngine
 from Classes.re_organization import REOrganization
 from Classes.re_project import REProject
+from Classes.re_user import REUser
 
 #Supress HTTPS warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -28,6 +29,11 @@ organization_parser = option_subparsers.add_parser("organization", help="",paren
 project_parser = option_subparsers.add_parser("project", help="",parents=[parent_parser])
 scan_parser = option_subparsers.add_parser("scan", help="",parents=[parent_parser])
 engine_parser = option_subparsers.add_parser("engine", help="",parents=[parent_parser])
+user_parser = option_subparsers.add_parser("user", help="",parents=[parent_parser])
+
+#User Actions
+user_action_subparser = user_parser.add_subparsers(title="user_action",dest="user_action_command")
+user_add_parser = user_action_subparser.add_parser("add", help="Add User", parents=[parent_parser])
 
 #Target Actions
 target_action_subparser = target_parser.add_subparsers(title="target_action",dest="target_action_command")
@@ -142,6 +148,12 @@ organization_add_parser.add_argument("-ti", metavar="--target-ids", action="stor
 ##remove
 organization_remove_parser.add_argument("-oi", metavar="--organization-id", action="store",help="Organization ID", required=True)
 
+#User
+user_add_parser.add_argument("-u", metavar="--username", action="store",help="New user's name", required=True)
+user_add_parser.add_argument("-p", metavar="--password", action="store",help="New user's password", required=True)
+user_add_parser.add_argument("-pn", metavar="--slug", action="store",help="ReNgine Project Name / Slug", required=True)
+user_add_parser.add_argument("-r", metavar="--role", action="store",help="New user's role", required=True)
+
 args = main_parser.parse_args()
 s: requests.Session
 #Authorize
@@ -161,6 +173,8 @@ match args.options.lower():
         REOrganization(args, s)
     case 'project':
         REProject(args, s)
+    case 'user':
+        REUser(args, s)
     case default:
         #Lets do nothing
         pass
